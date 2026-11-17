@@ -1,10 +1,12 @@
 package br.ufpa.refactoring.q4;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecentFiles extends ArrayList<String> {
 
     private final int limit;
+    private final List<String> files = new ArrayList<>();
 
     public RecentFiles(int limit) {
         this.limit = limit;
