@@ -9,7 +9,18 @@ public class SupportChat {
         return "Olá, " + user.name() + "! Como posso ajudar?";
     }
 
-    public record User(String name, boolean banned) {
+    public static class User {
+        private final String name;
+        private final boolean banned;
+
+        public User(String name, boolean banned) {
+            this.name = name;
+            this.banned = banned;
+        }
+
+        public String name() { return name; }
+        public boolean banned() { return banned; }
         public boolean isBanned() { return banned; }
+        public boolean isNull() { return false; }
     }
 }
