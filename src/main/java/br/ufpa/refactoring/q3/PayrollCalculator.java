@@ -6,8 +6,7 @@ public class PayrollCalculator {
 
     public double monthlyNetSalary(Employee e) {
         double base = e.baseSalary();
-        double overtime = 0.0;
-        for (Overtime ot : e.overtimes()) overtime += ot.hours() * ot.hourRate();
+        double overtime = calculateOvertime(e);
 
         double gross = base + overtime;
         double tax;
@@ -20,6 +19,12 @@ public class PayrollCalculator {
 
         double net = gross - tax - healthPlan + mealVoucher;
         return Math.round(net * 100.0) / 100.0;
+    }
+
+    double calculateOvertime(Employee e) {
+        double overtime = 0.0;
+        for (Overtime ot : e.overtimes()) overtime += ot.hours() * ot.hourRate();
+        return overtime;
     }
 
     public record Employee(double baseSalary, List<Overtime> overtimes,
