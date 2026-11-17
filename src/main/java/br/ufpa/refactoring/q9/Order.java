@@ -13,7 +13,7 @@ public class Order {
     }
 
     public double finalTotal() {
-        double discount = total * discountRate + customer.loyaltyDiscount();
+        double discount = customer.calculateDiscount(total, discountRate);
         return Math.max(0.0, total - discount);
     }
 
@@ -25,6 +25,10 @@ public class Order {
             if (isVip()) discount += 25.0;
             if (yearsAsCustomer() >= 5) discount += 15.0;
             return discount;
+        }
+
+        public double calculateDiscount(double orderTotal, double discountRate) {
+            return (orderTotal * discountRate) + loyaltyDiscount();
         }
     }
 }
