@@ -13,14 +13,14 @@ public class PurchaseEmailService {
           .append(LocalDate.now()).append(".\n\n");
 
         sb.append("Itens:\n");
-        double subtotal = 0.0;
         for (PurchaseItem it : purchase.items()) {
             double line = it.unitPrice() * it.quantity();
-            subtotal += line;
             sb.append("- ").append(it.name())
               .append(" (").append(it.quantity()).append("x) : R$ ")
               .append(String.format("%.2f", line)).append("\n");
         }
+
+        double subtotal = calculateSubtotal(purchase);
 
         double shipping = purchase.isExpress() ? 29.90 : 14.90;
         double discount = 0.0;
@@ -43,6 +43,14 @@ public class PurchaseEmailService {
 
         sb.append("Obrigado por comprar com a gente!\n");
         return sb.toString();
+    }
+
+    private double calculateSubtotal(Purchase purchase) {
+        double subtotal = 0.0;
+        for (PurchaseItem it : purchase.items()) {
+            subtotal += it.unitPrice() * it.quantity();
+        }
+        return subtotal;
     }
 
     public record Purchase(String id, String customerName, List<PurchaseItem> items,
