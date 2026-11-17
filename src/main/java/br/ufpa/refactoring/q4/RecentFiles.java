@@ -13,8 +13,20 @@ public class RecentFiles extends ArrayList<String> {
     }
 
     public void addFile(String path) {
-        remove(path);
-        add(0, path);
-        while (size() > limit) remove(size() - 1);
+        files.remove(path);
+        files.add(0, path);
+        while (files.size() > limit) {
+            files.remove(files.size() - 1);
+        }
+    }
+
+    @Override
+    public int size() {
+        return files.size();
+    }
+
+    @Override
+    public String get(int index) {
+        return files.get(index);
     }
 }
