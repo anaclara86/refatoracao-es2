@@ -13,13 +13,18 @@ public class Order {
     }
 
     public double finalTotal() {
-        double discount = total * discountRate;
-        if (customer.isVip()) discount += 25.0;
-        if (customer.yearsAsCustomer() >= 5) discount += 15.0;
+        double discount = total * discountRate + customer.loyaltyDiscount();
         return Math.max(0.0, total - discount);
     }
 
     public record Customer(boolean vip, int yearsAsCustomer) {
         public boolean isVip() { return vip; }
+
+        public double loyaltyDiscount() {
+            double discount = 0.0;
+            if (isVip()) discount += 25.0;
+            if (yearsAsCustomer() >= 5) discount += 15.0;
+            return discount;
+        }
     }
 }
