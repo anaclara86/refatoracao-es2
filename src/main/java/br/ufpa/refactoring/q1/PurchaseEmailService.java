@@ -30,11 +30,7 @@ public class PurchaseEmailService {
         sb.append("Descontos: R$ ").append(String.format("%.2f", discount)).append("\n");
         sb.append("TOTAL: R$ ").append(String.format("%.2f", total)).append("\n\n");
 
-        sb.append("Endereço de entrega:\n");
-        sb.append(purchase.address().street()).append(", ")
-          .append(purchase.address().number()).append("\n");
-        sb.append(purchase.address().city()).append(" - ")
-          .append(purchase.address().zip()).append("\n\n");
+        sb.append(formatAddress(purchase.address()));
 
         sb.append("Obrigado por comprar com a gente!\n");
         return sb.toString();
@@ -61,6 +57,16 @@ public class PurchaseEmailService {
             discount += 20.0;
         }
         return discount;
+    }
+
+    private String formatAddress(Address address) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Endereço de entrega:\n");
+        sb.append(address.street()).append(", ")
+          .append(address.number()).append("\n");
+        sb.append(address.city()).append(" - ")
+          .append(address.zip()).append("\n\n");
+        return sb.toString();
     }
 
     public record Purchase(String id, String customerName, List<PurchaseItem> items,
