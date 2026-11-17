@@ -6,10 +6,7 @@ public class PayrollCalculator {
 
     public double monthlyNetSalary(Employee e) {
         double gross = calculateGross(e);
-        double tax;
-        if (gross <= 3000) tax = gross * 0.08;
-        else if (gross <= 7000) tax = gross * 0.12;
-        else tax = gross * 0.18;
+        double tax = calculateTax(e);
 
         double mealVoucher = e.hasMealVoucher() ? 450.0 : 0.0;
         double healthPlan = e.healthPlanDeduction();
@@ -26,6 +23,13 @@ public class PayrollCalculator {
         double overtime = 0.0;
         for (Overtime ot : e.overtimes()) overtime += ot.hours() * ot.hourRate();
         return overtime;
+    }
+
+    double calculateTax(Employee e) {
+        double gross = calculateGross(e);
+        if (gross <= 3000) return gross * 0.08;
+        if (gross <= 7000) return gross * 0.12;
+        return gross * 0.18;
     }
 
     public record Employee(double baseSalary, List<Overtime> overtimes,
