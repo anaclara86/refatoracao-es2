@@ -5,13 +5,7 @@ import java.util.List;
 public class PayrollCalculator {
 
     public double monthlyNetSalary(Employee e) {
-        double gross = calculateGross(e);
-        double tax = calculateTax(e);
-
-        double mealVoucher = e.hasMealVoucher() ? 450.0 : 0.0;
-        double healthPlan = e.healthPlanDeduction();
-
-        double net = gross - tax - healthPlan + mealVoucher;
+        double net = calculateGross(e) - calculateTax(e) - e.healthPlanDeduction() + mealVoucher(e);
         return Math.round(net * 100.0) / 100.0;
     }
 
@@ -30,6 +24,10 @@ public class PayrollCalculator {
         if (gross <= 3000) return gross * 0.08;
         if (gross <= 7000) return gross * 0.12;
         return gross * 0.18;
+    }
+
+    double mealVoucher(Employee e) {
+        return e.hasMealVoucher() ? 450.0 : 0.0;
     }
 
     public record Employee(double baseSalary, List<Overtime> overtimes,
