@@ -21,13 +21,8 @@ public class PurchaseEmailService {
         }
 
         double subtotal = calculateSubtotal(purchase);
-
-        double shipping = purchase.isExpress() ? 29.90 : 14.90;
-        double discount = 0.0;
-        if (subtotal >= 300.0) discount = subtotal * 0.10;
-        if (purchase.coupon() != null && purchase.coupon().startsWith("VIP"))
-            discount += 20.0;
-
+        double shipping = calculateShipping(purchase);
+        double discount = calculateDiscount(purchase, subtotal);
         double total = subtotal + shipping - discount;
 
         sb.append("\nSubtotal: R$ ").append(String.format("%.2f", subtotal)).append("\n");
@@ -51,6 +46,21 @@ public class PurchaseEmailService {
             subtotal += it.unitPrice() * it.quantity();
         }
         return subtotal;
+    }
+
+    private double calculateShipping(Purchase purchase) {
+        return purchase.isExpress() ? 29.90 : 14.90;
+    }
+
+    private double calculateDiscount(Purchase purchase, double subtotal) {
+        double discount = 0.0;
+        if (subtotal >= 300.0) {
+            discount = subtotal * 0.10;
+        }
+        if (purchase.coupon() != null && purchase.coupon().startsWith("VIP")) {
+            discount += 20.0;
+        }
+        return discount;
     }
 
     public record Purchase(String id, String customerName, List<PurchaseItem> items,
