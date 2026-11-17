@@ -1,9 +1,10 @@
 package br.ufpa.refactoring.q4;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class RecentFiles extends ArrayList<String> {
+public class RecentFiles {
 
     private final int limit;
     private final List<String> files = new ArrayList<>();
@@ -20,13 +21,15 @@ public class RecentFiles extends ArrayList<String> {
         }
     }
 
-    @Override
     public int size() {
         return files.size();
     }
 
-    @Override
     public String get(int index) {
         return files.get(index);
+    }
+
+    public List<String> getAll() {
+        return Collections.unmodifiableList(files);
     }
 }
