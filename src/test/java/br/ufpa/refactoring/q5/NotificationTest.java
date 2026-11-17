@@ -10,7 +10,7 @@ class NotificationTest {
 
     @Test
     void render_shouldContainSubjectAndBody() {
-        Notification n = new VIPPasswordResetNotification("Joelma");
+        Notification n = new PasswordResetNotification("Joelma");
         String r = n.render();
 
         assertEquals("Redefinição de senha", n.subject());
