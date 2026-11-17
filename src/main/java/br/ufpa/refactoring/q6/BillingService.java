@@ -2,9 +2,21 @@ package br.ufpa.refactoring.q6;
 
 public class BillingService {
 
-    public enum Plan { FREE, STUDENT, PRO, ENTERPRISE }
+    public interface PlanPolicy {
+        double calculatePrice(int activeUsers, boolean prioritySupport);
+    }
+
+    public enum Plan implements PlanPolicy {
+        FREE, STUDENT, PRO, ENTERPRISE;
+
+        @Override
+        public double calculatePrice(int activeUsers, boolean prioritySupport) {
+            return 0.0;
+        }
+    }
 
     public double monthlyPrice(Plan plan, int activeUsers, boolean prioritySupport) {
+        if (plan == null) throw new IllegalArgumentException();
         double price;
         switch (plan) {
             case FREE -> price = 0.0;
