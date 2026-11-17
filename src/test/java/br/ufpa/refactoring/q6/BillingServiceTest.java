@@ -21,7 +21,22 @@ class BillingServiceTest {
 
     @Test
     void refactorGoal_replaceConditionalWithPolymorphism() {
-        // TODO: após refatorar, o switch deve desaparecer (cada plano com sua política).
-        // Testes acima devem continuar passando.
+        BillingService svc = new BillingService();
+
+        // Plano FREE não tem acréscimo de suporte prioritário
+        assertEquals(0.0, svc.monthlyPrice(BillingService.Plan.FREE, 50, true), 0.001);
+
+        // Plano STUDENT com suporte prioritário (19.90 + 59.90 = 79.80)
+        assertEquals(79.80, svc.monthlyPrice(BillingService.Plan.STUDENT, 1, true), 0.01);
+
+        // Plano PRO com suporte prioritário e desconto de > 200 usuários
+        double expectedPro = ((49.90 + 250 * 1.25) + 59.90) * 0.95;
+        assertEquals(Math.round(expectedPro * 100.0) / 100.0, svc.monthlyPrice(BillingService.Plan.PRO, 250, true), 0.01);
+
+        // Plano ENTERPRISE sem suporte prioritário
+        assertEquals(199.90 + (50 * 0.90), svc.monthlyPrice(BillingService.Plan.ENTERPRISE, 50, false), 0.01);
+
+        // Plano nulo deve lançar exceção
+        assertThrows(IllegalArgumentException.class, () -> svc.monthlyPrice(null, 10, false));
     }
 }
