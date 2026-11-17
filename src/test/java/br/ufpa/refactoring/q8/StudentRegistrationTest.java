@@ -13,6 +13,15 @@ class StudentRegistrationTest {
 
         StudentRegistration badZip = new StudentRegistration("Juremilda", "n@x.com", "9199999999", "Belém", "66000000");
         assertFalse(badZip.isValid());
+
+        StudentRegistration badName = new StudentRegistration("  ", "n@x.com", "9199999999", "Belém", "66000-000");
+        assertFalse(badName.isValid());
+
+        StudentRegistration badEmail = new StudentRegistration("Juremilda", "invalidemail", "9199999999", "Belém", "66000-000");
+        assertFalse(badEmail.isValid());
+
+        StudentRegistration badPhone = new StudentRegistration("Juremilda", "n@x.com", "123", "Belém", "66000-000");
+        assertFalse(badPhone.isValid());
     }
 
     @Test
@@ -23,6 +32,12 @@ class StudentRegistrationTest {
 
     @Test
     void refactorGoal_extractClass_contactAndAddress() {
-        // TODO: extrair ContactInfo/Address e mover validações/format mantendo testes.
+        // Valida casos adicionais de campos nulos
+        StudentRegistration nullFields = new StudentRegistration(null, null, null, null, null);
+        assertFalse(nullFields.isValid());
+
+        StudentRegistration validWithLongPhone = new StudentRegistration("Carlos", "carlos@ufpa.br", "91987654321", "Ananindeua", "67000-000");
+        assertTrue(validWithLongPhone.isValid());
+        assertEquals("Carlos | carlos@ufpa.br | 91987654321 | Ananindeua - 67000-000", validWithLongPhone.formattedContact());
     }
 }
