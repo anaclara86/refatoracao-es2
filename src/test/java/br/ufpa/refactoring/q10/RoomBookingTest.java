@@ -27,5 +27,15 @@ class RoomBookingTest {
 
         // Mais de 40 participantes com acréscimo de 15%: 50 * 1.15 = 57.50
         assertEquals(57.50, rb.quote("C", 1, "201", 9, 10, false, false, 45), 0.001);
+
+        // Testando uso direto do objeto de parâmetro BookingRequest
+        RoomBooking.BookingRequest request = new RoomBooking.BookingRequest(
+                new RoomBooking.Room("A", 3, "101"),
+                new RoomBooking.Schedule(8, 10),
+                true,
+                true,
+                50
+        );
+        assertEquals((2*50.0 + 30 + 20) * 1.15 + 10, rb.quote(request), 0.01);
     }
 }
