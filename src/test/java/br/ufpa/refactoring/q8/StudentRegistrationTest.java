@@ -39,5 +39,15 @@ class StudentRegistrationTest {
         StudentRegistration validWithLongPhone = new StudentRegistration("Carlos", "carlos@ufpa.br", "91987654321", "Ananindeua", "67000-000");
         assertTrue(validWithLongPhone.isValid());
         assertEquals("Carlos | carlos@ufpa.br | 91987654321 | Ananindeua - 67000-000", validWithLongPhone.formattedContact());
+
+        // Valida uso direto das classes extraídas
+        ContactInfo contact = new ContactInfo("aluno@ufpa.br", "91999998888");
+        Address address = new Address("Belém", "66075-110");
+        StudentRegistration reg = new StudentRegistration("Aluno", contact, address);
+
+        assertTrue(contact.isValid());
+        assertTrue(address.isValid());
+        assertTrue(reg.isValid());
+        assertEquals("Aluno | aluno@ufpa.br | 91999998888 | Belém - 66075-110", reg.formattedContact());
     }
 }
