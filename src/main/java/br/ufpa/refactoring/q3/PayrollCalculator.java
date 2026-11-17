@@ -5,10 +5,7 @@ import java.util.List;
 public class PayrollCalculator {
 
     public double monthlyNetSalary(Employee e) {
-        double base = e.baseSalary();
-        double overtime = calculateOvertime(e);
-
-        double gross = base + overtime;
+        double gross = calculateGross(e);
         double tax;
         if (gross <= 3000) tax = gross * 0.08;
         else if (gross <= 7000) tax = gross * 0.12;
@@ -19,6 +16,10 @@ public class PayrollCalculator {
 
         double net = gross - tax - healthPlan + mealVoucher;
         return Math.round(net * 100.0) / 100.0;
+    }
+
+    double calculateGross(Employee e) {
+        return e.baseSalary() + calculateOvertime(e);
     }
 
     double calculateOvertime(Employee e) {
