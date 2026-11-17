@@ -22,5 +22,27 @@ public class SupportChat {
         public boolean banned() { return banned; }
         public boolean isBanned() { return banned; }
         public boolean isNull() { return false; }
+
+        public String greeting() {
+            if (isBanned()) return "Conta bloqueada. Contate o suporte.";
+            if (name == null || name.isBlank()) return "Olá! Como posso ajudar?";
+            return "Olá, " + name + "! Como posso ajudar?";
+        }
+    }
+
+    public static class NullUser extends User {
+        public NullUser() {
+            super("", false);
+        }
+
+        @Override
+        public boolean isNull() {
+            return true;
+        }
+
+        @Override
+        public String greeting() {
+            return "Olá! Quer continuar como visitante?";
+        }
     }
 }
