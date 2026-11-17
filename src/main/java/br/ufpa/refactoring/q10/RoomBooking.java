@@ -17,4 +17,10 @@ public class RoomBooking {
 
         return Math.round(base * 100.0) / 100.0;
     }
+
+    public record Room(String building, int floor, String room) {}
+
+    public record Schedule(int startHour, int endHour) {
+        public int durationHours() { return endHour - startHour; }
+    }
 }
