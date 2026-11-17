@@ -19,6 +19,18 @@ class OrderTest {
 
     @Test
     void refactorGoal_moveDiscountLogic_toCustomerOrPolicy() {
-        // TODO: mover lógica de desconto para Customer ou um DiscountPolicy e fazer Order delegar.
+        // VIP com menos de 5 anos: bônus de 25.0
+        var vipNovo = new Order.Customer(true, 2);
+        var o3 = new Order(vipNovo, 100.0, 0.0);
+        assertEquals(75.0, o3.finalTotal(), 0.001);
+
+        // Não-VIP com exatamente 5 anos de casa: bônus de 15.0
+        var veterano = new Order.Customer(false, 5);
+        var o4 = new Order(veterano, 100.0, 0.0);
+        assertEquals(85.0, o4.finalTotal(), 0.001);
+
+        // Total não pode ser negativo quando o desconto excede o valor
+        var o5 = new Order(vipNovo, 20.0, 0.0);
+        assertEquals(0.0, o5.finalTotal(), 0.001);
     }
 }
